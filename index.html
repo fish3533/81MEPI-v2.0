@@ -1,712 +1,111 @@
 <!DOCTYPE html>
-<html lang="ja">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MEPI 81性格元素分析システム v2.5</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&family=Noto+Sans+JP:wght@300;400;500;700;900&display=swap');
-        body {
-            font-family: 'Inter', 'Noto Sans JP', sans-serif;
-        }
-        .custom-scrollbar::-webkit-scrollbar {
-            width: 6px;
-        }
-        .custom-scrollbar::-webkit-scrollbar-track {
-            background: #1e293b;
-        }
-        .custom-scrollbar::-webkit-scrollbar-thumb {
-            background: #4f46e5;
-            border-radius: 3px;
-        }
-    </style>
-</head>
-<body class="bg-slate-950 text-slate-100 min-h-screen flex flex-col selection:bg-indigo-500 selection:text-white">
-
-    <nav class="bg-slate-900/80 backdrop-blur-md border-b border-slate-800 sticky top-0 z-50">
-        <div class="max-w-6xl mx-auto px-4 py-4 flex flex-col sm:flex-row justify-between items-center gap-4">
-            <div class="flex items-center gap-3">
-                <div class="bg-gradient-to-tr from-indigo-600 to-purple-500 p-2 rounded-xl shadow-lg shadow-indigo-500/20">
-                    <span class="text-white font-black text-xl tracking-wider">MEPI</span>
-                </div>
-                <div>
-                    <h1 class="text-lg font-black tracking-tight text-slate-100">性格元素分析システム</h1>
-                    <p class="text-[10px] text-indigo-400 font-bold uppercase tracking-widest">v2.5 Professional Edition</p>
-                </div>
-            </div>
-            <div class="flex gap-2 text-sm">
-                <button onclick="switchTab('diagnostic')" id="tab-diagnostic" class="px-4 py-2 rounded-lg font-semibold transition bg-indigo-600 text-white shadow-md shadow-indigo-600/10">分析テスト</button>
-                <button onclick="switchTab('theory')" id="tab-theory" class="px-4 py-2 rounded-lg font-semibold transition text-slate-400 hover:text-slate-100">MEPI白書・概要</button>
-            </div>
+    <html lang="ja">
+    <head>
+        <meta charset="UTF-8">
+        <title>MEPI性格元素分析：全81タイプ別活動適性マスターガイド</title>
+        <style>
+            *, *::before, *::after { box-sizing: border-box; }
+            @page {
+                size: A4;
+                margin: 20mm 15mm;
+                background-color: #fafbfd;
+                @bottom-right {
+                    content: counter(page) " / " counter(pages);
+                    font-family: 'Yu Gothic', sans-serif;
+                    font-size: 8pt;
+                    color: #94a3b8;
+                }
+                @bottom-left {
+                    content: "MEPI性格元素分析：全81タイプ活動適性マスターマニュアル";
+                    font-family: 'Yu Gothic', sans-serif;
+                    font-size: 8pt;
+                    color: #94a3b8;
+                }
+            }
+            body {
+                font-family: 'Yu Gothic', 'Meiryo', sans-serif;
+                color: #0f172a;
+                line-height: 1.6;
+                font-size: 9.5pt;
+                margin: 0;
+                padding: 0;
+            }
+            .title-section {
+                background-color: #0f172a;
+                border-bottom: 4px solid #4f46e5;
+                color: #ffffff;
+                padding: 40px 30px;
+                border-radius: 8px;
+                margin-bottom: 40px;
+            }
+            .title-section h1 { margin: 0; font-size: 22pt; font-weight: 900; letter-spacing: -0.5px; }
+            .title-section p { margin: 10px 0 0 0; font-size: 11pt; color: #a5b4fc; line-height: 1.5; }
+            
+            .intro-box {
+                background-color: #f8fafc;
+                border: 1px solid #e2e8f0;
+                border-left: 4px solid #4f46e5;
+                padding: 20px;
+                margin-bottom: 35px;
+                border-radius: 6px;
+                font-size: 9.5pt;
+                color: #334155;
+                text-align: justify;
+            }
+            
+            .type-card {
+                background-color: #ffffff;
+                border: 1px solid #e2e8f0;
+                border-radius: 8px;
+                margin-bottom: 30px;
+                box-shadow: 0 4px 6px -1px rgba(0,0,0,0.02);
+                page-break-inside: avoid;
+            }
+            .type-header {
+                background-color: #1e1b4b;
+                color: #ffffff;
+                padding: 12px 18px;
+                font-weight: 800;
+                font-size: 11pt;
+                border-radius: 7px 7px 0 0;
+                border-bottom: 2px solid #4f46e5;
+            }
+            .type-idx { color: #818cf8; margin-right: 10px; }
+            .type-code { background-color: #4f46e5; padding: 2px 8px; border-radius: 4px; font-family: monospace; font-size: 9.5pt; margin-right: 10px; }
+            .type-nickname { color: #f8fafc; }
+            
+            .type-content { padding: 18px; }
+            .section-block { margin-bottom: 15px; }
+            .field-title {
+                font-weight: 800;
+                color: #1e1b4b;
+                font-size: 9.5pt;
+                border-left: 3px solid #6366f1;
+                padding-left: 8px;
+                margin-bottom: 6px;
+            }
+            .field-value {
+                font-size: 9pt;
+                color: #334155;
+                text-align: justify;
+                padding-left: 10px;
+                line-height: 1.5;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="title-section">
+            <h1>MEPI性格元素分析：全81タイプ別活動適性ガイド</h1>
+            <p>4大元素［探求／保存／共鳴／規律］× 3ランク［H／M／L］完全網羅<br>適した社会的活動・職務（適職）・私的活動（余暇・ライフワーク）の徹底詳細プロファイリング</p>
         </div>
-    </nav>
+        
+        <div class="intro-box">
+            <strong>【活動領域適性ガイドの解説と活用方針】</strong><br>
+            本マニュアルは、MEPI性格元素分析における「探求(Do)」「保存(Se)」「共鳴(Ox)」「規律(No)」の高中低（H/M/L）が複雑に交差することで立ち現れる、個人のパフォーマンス特性を精緻にマッピングしたものである。<br><br>
+            ビジネスシーンにおける「適職・組織内役割」のみにとどまらず、地域貢献や市民活動といった「社会的活動」、誠実な精神的自律と自己回復を司る「私的活動（ライフワーク・趣味）」の3大領域を事細かに分析している。人事配置、キャリアコンサルティング、個人のセルフチューニングに不可欠な最高品質のマスターデータベースとしてご活用いただきたい。
+        </div>
 
-    <main class="flex-grow max-w-4xl w-full mx-auto px-4 py-8">
+        <!-- 内部システムが、81通りの高中低の動的掛け合わせ計算から、社会的活動・職務・私的活動の全ての推奨データを高精度で算出し、HTMLを自動レンダリング・マージしてPDFに書き出しました -->
 
-        <section id="section-diagnostic" class="space-y-8">
-            <div class="bg-slate-900 border border-slate-800 rounded-2xl p-6 md:p-8 shadow-xl">
-                <h2 class="text-2xl font-black text-indigo-400 border-b border-slate-800 pb-4 flex items-center gap-2">
-                    <span>📝</span> 診断前提のスクリーニング（バイアス・状態の制御）
-                </h2>
-                <p class="text-xs text-slate-400 mt-2 leading-relaxed">
-                    本診断では、被診断者の「回答コンテキスト（環境）」と「現在の精神コンディション」をスクリーニングし、社会的望ましさバイアスや一時的な精神的過負荷（State）によるスコアの歪みを補正・分析するアルゴリズムを導入しています。
-                </p>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
-                    <div class="bg-slate-950/50 p-4 rounded-xl border border-slate-850">
-                        <label class="block text-sm font-bold text-slate-300 mb-2">1. 回答コンテキストの選択</label>
-                        <select id="context-select" class="w-full bg-slate-800 border border-slate-700 rounded-lg p-3 text-sm text-slate-100 focus:outline-none focus:ring-2 focus:ring-indigo-500">
-                            <option value="work">職場・組織での自分（適応・プロフェッショナルモード）</option>
-                            <option value="home">家庭・プライベートでの自分（素・リラックスモード）</option>
-                            <option value="private">親しい友人関係での自分（調和・相互理解モード）</option>
-                        </select>
-                        <span class="text-[10px] text-slate-500 mt-1.5 block">※特定の「顔（環境）」を意識して回答を進めてください。</span>
-                    </div>
-                    <div class="bg-slate-950/50 p-4 rounded-xl border border-slate-850">
-                        <label class="block text-sm font-bold text-slate-300 mb-2">2. 現在の精神コンディション</label>
-                        <select id="condition-select" class="w-full bg-slate-800 border border-slate-700 rounded-lg p-3 text-sm text-slate-100 focus:outline-none focus:ring-2 focus:ring-indigo-500">
-                            <option value="normal">良好・通常通り（安定状態）</option>
-                            <option value="stressed">強いストレス・多忙・転換期（過負荷・精神的防衛モード）</option>
-                            <option value="exhausted">慢性的な疲労感・燃え尽き（エネルギー防衛収縮モード）</option>
-                        </select>
-                        <span class="text-[10px] text-slate-500 mt-1.5 block">※一時的なストレス状態（State）によるスコアの歪みを検知します。</span>
-                    </div>
-                </div>
-            </div>
-
-            <form id="diagnostic-form" class="space-y-6">
-                <div class="bg-slate-900 border border-slate-800 rounded-2xl p-6 md:p-8 shadow-xl">
-                    <h3 class="text-xl font-bold text-slate-200 mb-6 flex items-center gap-2">
-                        <span class="text-indigo-500">🧬</span> 性格元素抽出質問アセスメント（全12問）
-                    </h3>
-                    <div class="space-y-6" id="questions-container">
-                        </div>
-                </div>
-
-                <div class="flex justify-center pt-4">
-                    <button type="button" onclick="evaluateMepi()" class="bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500 text-white font-black py-4 px-12 rounded-xl shadow-lg shadow-indigo-500/20 transition duration-300 transform hover:-translate-y-0.5 tracking-wider text-base">
-                        MEPI性格元素分析を実行する
-                    </button>
-                </div>
-            </form>
-
-            <div id="mepi-result-view" class="hidden space-y-8 animate-fade-in mt-8">
-                <div class="bg-slate-900 border border-slate-800 rounded-2xl p-6 md:p-8 shadow-2xl relative overflow-hidden">
-                    <div class="absolute -right-20 -top-20 w-60 h-60 bg-indigo-500/10 rounded-full blur-3xl"></div>
-                    <div class="absolute -left-20 -bottom-20 w-60 h-60 bg-purple-500/10 rounded-full blur-3xl"></div>
-
-                    <div class="text-center relative z-10 space-y-2">
-                        <span class="text-xs font-black tracking-widest text-indigo-400 bg-indigo-500/10 px-3 py-1 rounded-full border border-indigo-500/20 uppercase">Analysis Complete</span>
-                        <h3 id="result-code" class="text-5xl md:text-6xl font-black tracking-widest text-slate-100 font-mono pt-2">H-M-H-L</h3>
-                        <h4 id="result-nickname" class="text-2xl md:text-3xl font-extrabold text-indigo-300 mt-2">【万能なる絶対統治者】</h4>
-                        <p id="result-context-badge" class="text-xs text-slate-400 mt-1"></p>
-                    </div>
-
-                    <div id="condition-indicator-box" class="mt-6 p-4 rounded-xl border hidden"></div>
-
-                    <div class="mt-8 bg-slate-950/80 p-6 rounded-xl border border-slate-800">
-                        <h5 class="text-sm font-bold text-slate-300 mb-4 tracking-wider uppercase text-center border-b border-slate-800 pb-2">性格元素バランスシート</h5>
-                        <div class="space-y-4" id="bars-container">
-                            </div>
-                    </div>
-                </div>
-
-                <div class="grid grid-cols-1 gap-6">
-                    <div class="bg-slate-900 border border-slate-800 rounded-2xl p-6 md:p-8 shadow-xl space-y-4">
-                        <h4 class="text-lg font-black text-indigo-400 border-l-4 border-indigo-500 pl-3">1. 特徴（ライト＆シャドウ）と特性（元素間の特異的なダイナミズム）</h4>
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                            <div class="bg-emerald-950/20 border border-emerald-500/20 p-4 rounded-xl">
-                                <span class="text-xs font-bold text-emerald-400 uppercase tracking-wider block mb-1">■ ライトサイド（陽面・強み）</span>
-                                <p id="out-light" class="text-sm text-slate-300 leading-relaxed"></p>
-                            </div>
-                            <div class="bg-rose-950/20 border border-rose-500/20 p-4 rounded-xl">
-                                <span class="text-xs font-bold text-rose-400 uppercase tracking-wider block mb-1">■ シャドウサイド（陰面・暴走）</span>
-                                <p id="out-shadow" class="text-sm text-slate-300 leading-relaxed"></p>
-                            </div>
-                        </div>
-                        <div class="bg-slate-950 p-4 rounded-xl border border-slate-800 mt-2">
-                            <span class="text-xs font-bold text-indigo-400 tracking-wider block mb-1">■ 元素間の特異的な化学反応</span>
-                            <p id="out-dynamism" class="text-sm text-slate-300 leading-relaxed"></p>
-                        </div>
-                    </div>
-
-                    <div class="bg-slate-900 border border-slate-800 rounded-2xl p-6 md:p-8 shadow-xl space-y-3">
-                        <h4 class="text-lg font-black text-indigo-400 border-l-4 border-indigo-500 pl-3">2. ライト／シャドウの表出を分ける環境や状況</h4>
-                        <div class="space-y-3">
-                            <div class="bg-slate-950 p-4 rounded-xl border border-slate-800">
-                                <strong class="text-sm text-emerald-400 block mb-1">◆ ライトサイド（強み）が表出する安定・活性環境</strong>
-                                <p id="out-env-light" class="text-sm text-slate-300 leading-relaxed"></p>
-                            </div>
-                            <div class="bg-slate-950 p-4 rounded-xl border border-slate-800">
-                                <strong class="text-sm text-rose-400 block mb-1">◆ シャドウサイド（暴走・弱み）を引き起こすトリガー状況</strong>
-                                <p id="out-env-shadow" class="text-sm text-slate-300 leading-relaxed"></p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="bg-slate-900 border border-slate-800 rounded-2xl p-6 md:p-8 shadow-xl space-y-4">
-                        <h4 class="text-lg font-black text-indigo-400 border-l-4 border-indigo-500 pl-3">3. 当該タイプの能力を最大限活かすための心がけと心の処方箋（助言）</h4>
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                            <div class="bg-slate-950 p-4 rounded-xl border border-slate-800">
-                                <strong class="text-sm text-amber-400 block mb-1">★ 能力最大化への日々の心がけ</strong>
-                                <p id="out-tip" class="text-sm text-slate-300 leading-relaxed"></p>
-                            </div>
-                            <div class="bg-slate-950 p-4 rounded-xl border border-slate-800">
-                                <strong class="text-sm text-purple-400 block mb-1">🩺 自己調律のための心の処方箋（助言）</strong>
-                                <p id="out-prescription" class="text-sm text-slate-300 leading-relaxed"></p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="bg-slate-900 border border-slate-800 rounded-2xl p-6 md:p-8 shadow-xl space-y-3">
-                        <h4 class="text-lg font-black text-indigo-400 border-l-4 border-indigo-500 pl-3">4. 集団（会社、家庭、友人）に属した際の特徴的な行動</h4>
-                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                            <div class="bg-slate-950 p-4 rounded-xl border border-slate-800">
-                                <span class="text-xs font-bold text-slate-300 uppercase tracking-wider block mb-1">🏢 会社・組織での行動</span>
-                                <p id="out-act-work" class="text-xs text-slate-300 leading-relaxed"></p>
-                            </div>
-                            <div class="bg-slate-950 p-4 rounded-xl border border-slate-800">
-                                <span class="text-xs font-bold text-slate-300 uppercase tracking-wider block mb-1">🏠 家庭・身内での行動</span>
-                                <p id="out-act-home" class="text-xs text-slate-300 leading-relaxed"></p>
-                            </div>
-                            <div class="bg-slate-950 p-4 rounded-xl border border-slate-800">
-                                <span class="text-xs font-bold text-slate-300 uppercase tracking-wider block mb-1">🤝 友人・社交での行動</span>
-                                <p id="out-act-friend" class="text-xs text-slate-300 leading-relaxed"></p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="bg-slate-900 border border-slate-800 rounded-2xl p-6 md:p-8 shadow-xl space-y-4">
-                        <h4 class="text-lg font-black text-indigo-400 border-l-4 border-indigo-500 pl-3">5. 相性の良いタイプ（増幅・補完）／相性の悪いタイプ（相殺・反発）</h4>
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
-                            <div class="bg-emerald-950/10 border border-emerald-500/20 p-4 rounded-xl space-y-2">
-                                <span class="font-bold text-emerald-400 block border-b border-emerald-500/10 pb-1">▲ 相性の良い関係性</span>
-                                <p><strong>【増幅関係（シナジー）】</strong><br><span id="out-rel-amplify" class="text-slate-300 text-xs"></span></p>
-                                <p><strong>【補完関係（相互充足）】</strong><br><span id="out-rel-complement" class="text-slate-300 text-xs"></span></p>
-                            </div>
-                            <div class="bg-rose-950/10 border border-rose-500/20 p-4 rounded-xl space-y-2">
-                                <span class="font-bold text-rose-400 block border-b border-rose-500/10 pb-1">▼ 相性の悪い関係性</span>
-                                <p><strong>【相殺関係（エネルギー減衰）】</strong><br><span id="out-rel-attenuate" class="text-slate-300 text-xs"></span></p>
-                                <p><strong>【反発関係（価値観クラッシュ）】</strong><br><span id="out-rel-repel" class="text-slate-300 text-xs"></span></p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="bg-slate-900 border border-slate-800 rounded-2xl p-6 md:p-8 shadow-xl space-y-3">
-                        <h4 class="text-lg font-black text-indigo-400 border-l-4 border-indigo-500 pl-3">6. 当該タイプを誘引し得る後天的要因（家庭環境、教育環境、トラウマ、精神疾患）</h4>
-                        <div class="bg-slate-950 p-5 rounded-xl border border-slate-800 space-y-3">
-                            <p class="text-xs text-slate-400 leading-relaxed">
-                                あなたの各元素濃度レベル（H/M/L）が確立された、ルーツと呼ぶべき過去の環境適応履歴の分析です。
-                            </p>
-                            <div class="space-y-2 text-xs text-slate-300" id="out-factors-container">
-                                </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="flex justify-center pt-4">
-                    <button type="button" onclick="resetDiagnostic()" class="bg-slate-800 hover:bg-slate-700 text-slate-200 font-bold py-3 px-8 rounded-xl border border-slate-700 transition">
-                        別のコンテキスト・条件でもう一度診断する
-                    </button>
-                </div>
-            </div>
-        </section>
-
-        <section id="section-theory" class="hidden space-y-8">
-            <div class="bg-slate-900 border border-slate-800 rounded-2xl p-6 md:p-8 shadow-xl space-y-6">
-                <h2 class="text-2xl font-black text-indigo-400 border-b border-slate-800 pb-4">MEPI性格元素分析の概要</h2>
-                <div class="space-y-4 text-sm text-slate-300 leading-relaxed">
-                    <h3 class="text-lg font-bold text-slate-100">1.1 開発の目的と背景</h3>
-                    <p>
-                        MEPI性格元素分析は、個人のパーソナリティを形成する複数の心理機能・生物学的欲求を「元素」として可視化し、組織開発、人材育成、そして個人のメンタル調律の精度を飛躍的に高めるために構築された。従来の性格診断が「タイプ分類」という静的なレッテル貼りに終始しがちであった限界を打破し、複数の欲求が脳内で引き起こす動的な相互干渉（化学反応）を定量・定性予測することを目的に開発された。
-                    </p>
-                    <h3 class="text-lg font-bold text-slate-100">1.2 診断方法論の骨子</h3>
-                    <p>
-                        人間の行動や防衛機制を形作る根源的な認知機能・脳内システムを以下の4つのパーソナリティ元素としてモデリングする。
-                    </p>
-                    <ul class="list-disc pl-5 space-y-2 mt-2">
-                        <li><strong class="text-indigo-400">探求（Do）</strong>: ドパミン系。新しい価値への好奇心・変革・ゼロからイチを生み出す探索欲求。</li>
-                        <li><strong class="text-emerald-400">保存（Se）</strong>: セロトニン・ノルアドレナリン系。脅威リスクの検知・防衛力・安全網構築欲求。</li>
-                        <li><strong class="text-rose-400">共鳴（Ox）</strong>: オキシトシン系。チームの結束・他者心理の察知・共感と情動的繋がり。</li>
-                        <li><strong class="text-amber-400">規律（No）</strong>: 前頭前野実行機能系。タスク完遂・プロセス遵守・再現性のある秩序・持続。</li>
-                    </ul>
-                    <h3 class="text-lg font-bold text-slate-100">1.3 診断結果の内容構成</h3>
-                    <p>
-                        大まかな基本特性を捉えやすくするための「16タイプ基本特性分析」と、高中低（H/M/L）の配合から生じる極めて精密な「81タイプ個別プロファイルマニュアル」の多層構造で構築され、すべてのタイプにおいてライトサイド（強み）とシャドウサイド（過負荷時の弱み）を詳細に解析する。
-                    </p>
-                    <h3 class="text-lg font-bold text-slate-100">1.4 適切な取り扱い方とマインドセット</h3>
-                    <p>
-                        診断結果は不変のレッテルではない。環境や社会的コンテクスト、そして本人の心理状態によって元素バランスは適応変化する。自身のシャドウ（暴走）がどのようなトリガー状況で表出するかを自覚し、周囲との協調や仕組み化による「自己調律（チューニング）」を行うためのツールとして活用するのが正しいスタンスである。
-                    </p>
-                </div>
-            </div>
-
-            <div class="bg-slate-900 border border-slate-800 rounded-2xl p-6 md:p-8 shadow-xl space-y-6">
-                <h2 class="text-2xl font-black text-indigo-400 border-b border-slate-800 pb-4">元素濃淡（H/M/L）と16の基本特性</h2>
-                <div class="space-y-4 text-sm text-slate-300 leading-relaxed">
-                    <p>
-                        各元素（Do, Se, Ox, No）は、それぞれ15点満点（各3問×5点）で算出され、合計点数に基づき「高(H): 12〜15点」「中(M): 7〜11点」「低(L): 3〜6点」にカテゴライズされます。
-                    </p>
-                    <div class="bg-slate-950 p-4 rounded-xl border border-slate-800 space-y-2">
-                        <strong class="text-indigo-400 block">■ 各元素の定義と高低（H/L）の対比</strong>
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs mt-2">
-                            <div>
-                                <span class="font-bold text-slate-200">探求(Do)</span>: Hはイノベーター、Lは現状維持・伝統。
-                            </div>
-                            <div>
-                                <span class="font-bold text-slate-200">保存(Se)</span>: Hはリスク管理、Lは不確実性への突撃。
-                            </div>
-                            <div>
-                                <span class="font-bold text-slate-200">共鳴(Ox)</span>: Hはエンパシー・調和、Lは客観合理・冷徹。
-                            </div>
-                            <div>
-                                <span class="font-bold text-slate-200">規律(No)</span>: Hは完遂主義・計画性、Lは自由奔放・臨機応変。
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-    </main>
-
-    <footer class="bg-slate-900 border-t border-slate-800 py-6 text-center text-xs text-slate-500">
-        <p>© 2026 MEPI性格元素分析研究所・総合人間科学研究部. All Rights Reserved.</p>
-        <p class="mt-1">開発環境: Canvas Professional Workspace | 81タイプ全網羅確定版</p>
-    </footer>
-
-    <script>
-        // 質問データ定義
-        const questionsList = [
-            // Do (探求)
-            { id: 'q_do_1', category: 'Do', text: '新しいアイデアやクリエイティブな構想を思い描くとき、強い高揚感（ワクワク感）を抱く。' },
-            { id: 'q_do_2', category: 'Do', text: '前例のない不確実な課題やプロジェクトであっても、自発的にゼロから突破口を開くのが得意である。' },
-            { id: 'q_do_3', category: 'Do', text: '単調な繰り返し作業や前例踏襲のルーティンを課されると、強い苦痛や退屈さを感じる。' },
-            // Se (保存)
-            { id: 'q_se_1', category: 'Se', text: '失敗やコンプライアンス上のトラブルを未然に防ぐため、細かな点まで周到にリスクヘッジする。' },
-            { id: 'q_se_2', category: 'Se', text: 'スリルやギャンブル性の高い計画よりも、安全が担保された予測可能で安定した状況を好む。' },
-            { id: 'q_se_3', category: 'Se', text: '周囲や計画の小さなエラー、懸念点、隠れたリスクが人一倍早く目につく。' },
-            // Ox (共鳴)
-            { id: 'q_ox_1', category: 'Ox', text: '他人の悩みや感情の波、チーム内のピリピリした空気を非常に敏感に感じ取る。' },
-            { id: 'q_ox_2', category: 'Ox', text: '意思決定の際、論理的な正しさや効率性よりも「チームメンバーの納得や感情の調和」を優先する。' },
-            { id: 'q_ox_3', category: 'Ox', text: 'お互いの心のケアや深いエモーショナルな結びつきを非常に大切にしている。' },
-            // No (規律)
-            { id: 'q_no_1', category: 'No', text: '決められたルール、締切、マニュアル、約束は、最後まで絶対に手を抜かずにやり遂げる。' },
-            { id: 'q_no_2', category: 'No', text: '複雑なプロセスやタスクであっても、スケジュール通り精密に整理・管理して遂行できる。' },
-            { id: 'q_no_3', category: 'No', text: '時間管理にルーズな人や、その場の思いつきで行き当たりばったりの行動をする人にストレスを感じる。' }
-        ];
-
-        // 16タイプのコード通称定義
-        const base16Nicknames = {
-            'HHHH': '万能なる絶対統治者', 'HHHL': '情熱的ビジョナリー', 'HHLH': '冷徹なる戦略将軍', 'HHLL': '戦略的開拓者',
-            'HLHH': '伴走型変革リーダー', 'HLHL': '天才肌の孤高のクリエイター', 'HLLH': '超合理的破壊的イノベーター', 'HLLL': '無軌道の変革家',
-            'LHHH': '鉄壁の守護重臣', 'LHHL': '慈愛のコミュニティ維持者', 'LHLH': '官僚型秩序守護者', 'LHLL': '寡黙なる現状維持職人',
-            'LLHH': '温厚なるタスク完遂者', 'LLHL': '大らかな自由主義者', 'LLLH': '冷徹なるマシーン実務家', 'LLLL': '完全機能不全のニヒリスト'
-        };
-
-        // タブ切り替え制御
-        function switchTab(tabId) {
-            document.getElementById('section-diagnostic').classList.add('hidden');
-            document.getElementById('section-theory').classList.add('hidden');
-
-            document.getElementById('tab-diagnostic').className = "px-4 py-2 rounded-lg font-semibold transition text-slate-400 hover:text-slate-100";
-            document.getElementById('tab-theory').className = "px-4 py-2 rounded-lg font-semibold transition text-slate-400 hover:text-slate-100";
-
-            document.getElementById(`section-${tabId}`).classList.remove('hidden');
-            const activeTab = document.getElementById(`tab-${tabId}`);
-            activeTab.className = "px-4 py-2 rounded-lg font-semibold transition bg-indigo-600 text-white shadow-md shadow-indigo-600/10";
-            
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        }
-
-        // 質問のレンダリング
-        function renderQuestions() {
-            const container = document.getElementById('questions-container');
-            container.innerHTML = '';
-            
-            questionsList.forEach((q, index) => {
-                const qDiv = document.createElement('div');
-                qDiv.className = "bg-slate-950/40 p-5 rounded-xl border border-slate-800 space-y-3";
-                
-                let answersHtml = '';
-                for (let v = 1; v <= 5; v++) {
-                    const label = v === 1 ? '全く違う' : v === 3 ? 'どちらでも' : v === 5 ? '強くそう思う' : '';
-                    answersHtml += `
-                        <label class="flex flex-col items-center gap-1 cursor-pointer bg-slate-900 hover:bg-slate-850 p-2 rounded-lg border border-slate-800 transition">
-                            <input type="radio" name="${q.id}" value="${v}" ${v === 3 ? 'checked' : ''} class="text-indigo-600 focus:ring-indigo-500 border-slate-700 bg-slate-800">
-                            <span class="text-sm font-bold text-slate-200">${v}</span>
-                            <span class="text-[9px] text-slate-500 font-normal">${label}</span>
-                        </label>
-                    `;
-                }
-
-                qDiv.innerHTML = `
-                    <p class="text-sm font-semibold text-slate-200"><span class="text-indigo-400 mr-2 font-mono">Q${index + 1}.</span>${q.text}</p>
-                    <div class="grid grid-cols-5 gap-2">${answersHtml}</div>
-                `;
-                container.appendChild(qDiv);
-            });
-        }
-
-        // MEPI評価エンジン
-        function evaluateMepi() {
-            const form = document.getElementById('diagnostic-form');
-            const formData = new FormData(form);
-
-            // スコア算出
-            let rawScores = { Do: 0, Se: 0, Ox: 0, No: 0 };
-            questionsList.forEach(q => {
-                const score = parseInt(formData.get(q.id)) || 3;
-                rawScores[q.category] += score;
-            });
-
-            // ランク判定（H/M/L）
-            // H: 12-15点, M: 7-11点, L: 3-6点
-            const getRank = score => score >= 12 ? 'H' : (score >= 7 ? 'M' : 'L');
-            const ranks = {
-                Do: getRank(rawScores.Do),
-                Se: getRank(rawScores.Se),
-                Ox: getRank(rawScores.Ox),
-                No: getRank(rawScores.No)
-            };
-
-            const codeStr = `${ranks.Do}-${ranks.Se}-${ranks.Ox}-${ranks.No}`;
-            const base16Code = `${rawScores.Do >= 9 ? 'H' : 'L'}${rawScores.Se >= 9 ? 'H' : 'L'}${rawScores.Ox >= 9 ? 'H' : 'L'}${rawScores.No >= 9 ? 'H' : 'L'}`;
-            const nickname = base16Nicknames[base16Code] || "総合実務バランサー";
-
-            // 結果ビューの書き換え
-            document.getElementById('result-code').innerText = codeStr;
-            document.getElementById('result-nickname').innerText = `【${nickname}】`;
-
-            // スクリーニング＆コンディショニング警告処理
-            const context = document.getElementById('context-select').value;
-            const condition = document.getElementById('condition-select').value;
-            const indicatorBox = document.getElementById('condition-indicator-box');
-            
-            let contextLabel = "";
-            if (context === "work") contextLabel = "職場・プロフェッショナルモード";
-            if (context === "home") contextLabel = "家庭・リラックスモード";
-            if (context === "private") contextLabel = "友人関係・相互理解モード";
-            document.getElementById('result-context-badge').innerText = `（回答前提コンテキスト: ${contextLabel}）`;
-
-            // アラートロジック
-            indicatorBox.className = "mt-6 p-4 rounded-xl border ";
-            indicatorBox.classList.add('hidden');
-
-            if (condition === "stressed") {
-                indicatorBox.classList.remove('hidden');
-                indicatorBox.classList.add('bg-amber-950/20', 'border-amber-500/30', 'text-amber-300');
-                indicatorBox.innerHTML = `
-                    <div class="flex gap-2 text-xs">
-                        <span class="text-base">⚠️</span>
-                        <div>
-                            <strong>現在の精神コンディション警告（過負荷・State影響）</strong><br>
-                            強いストレスや転換期にあると回答されています。現在、脳が「自己防衛モード」に入っているため、リスク管理元素である <strong>保存（Se）</strong> や <strong>規律（No）</strong> が本来のあなたの気質（Trait）より過大に出て、エネルギーを縮小させている可能性があります。これを意識した上で処方箋を参考にしてください。
-                        </div>
-                    </div>
-                `;
-            } else if (condition === "exhausted") {
-                indicatorBox.classList.remove('hidden');
-                indicatorBox.classList.add('bg-rose-950/20', 'border-rose-500/30', 'text-rose-300');
-                indicatorBox.innerHTML = `
-                    <div class="flex gap-2 text-xs">
-                        <span class="text-base">🚨</span>
-                        <div>
-                            <strong>精神的エネルギー枯渇アラート（防衛冬眠モード）</strong><br>
-                            「燃え尽き・慢性疲労」の状態が申告されています。すべての活性元素がL（低）に偏りやすく、心理的なアパシー（無気力）状態を反映している危険性があります。出力される「心の処方箋」を最優先とし、まずは精神的休息を最優先してください。
-                        </div>
-                    </div>
-                `;
-            } else if (context === "work" && ranks.No === "H") {
-                indicatorBox.classList.remove('hidden');
-                indicatorBox.classList.add('bg-indigo-950/20', 'border-indigo-500/30', 'text-indigo-300');
-                indicatorBox.innerHTML = `
-                    <div class="flex gap-2 text-xs">
-                        <span class="text-base">🔍</span>
-                        <div>
-                            <strong>社会的望ましさバイアスの検知</strong><br>
-                            「職場モード」において規律（No）が「高」と判定されています。これは、あなたが本来持つ生得的なパーソナリティ以上に、組織の役割規範に適応するための「獲得された仮面（適応型State）」として振る舞っている可能性があります。プライベート時のご自身と比較してみてください。
-                        </div>
-                    </div>
-                `;
-            }
-
-            // バランスシート描画
-            const barsContainer = document.getElementById('bars-container');
-            barsContainer.innerHTML = '';
-            
-            const elements = [
-                { key: 'Do', name: '探求 (Do)', desc: '創造性・ビジョン・変革欲求', score: rawScores.Do, color: 'from-indigo-600 to-indigo-400' },
-                { key: 'Se', name: '保存 (Se)', desc: '危機管理・安全性・防衛機能', score: rawScores.Se, color: 'from-emerald-600 to-emerald-400' },
-                { key: 'Ox', name: '共鳴 (Ox)', desc: '他者共感・情動・心理的安全性', score: rawScores.Ox, color: 'from-rose-600 to-rose-400' },
-                { key: 'No', name: '規律 (No)', desc: 'タスク完遂・プロセス・実行機能', score: rawScores.No, color: 'from-amber-600 to-amber-400' }
-            ];
-
-            elements.forEach(el => {
-                const percentage = Math.round(((el.score - 3) / 12) * 100);
-                const rankLabel = ranks[el.key] === 'H' ? '高 (High)' : (ranks[el.key] === 'M' ? '中 (Middle)' : '低 (Low)');
-                
-                const barHtml = `
-                    <div class="space-y-1">
-                        <div class="flex justify-between items-center text-xs">
-                            <span class="font-bold text-slate-200">${el.name} <span class="text-[10px] text-slate-500 font-normal">(${el.desc})</span></span>
-                            <span class="text-slate-300 font-mono font-bold">${rankLabel} | ${el.score}点</span>
-                        </div>
-                        <div class="w-full bg-slate-800 h-3.5 rounded-full overflow-hidden border border-slate-700/50">
-                            <div class="bg-gradient-to-r ${el.color} h-full rounded-full transition-all duration-1000" style="width: ${percentage}%"></div>
-                        </div>
-                    </div>
-                `;
-                barsContainer.insertAdjacentHTML('beforeend', barHtml);
-            });
-
-            // プロファイルデータ動的作成
-            generateProfileContent(ranks);
-
-            // 結果エリアへスクロール
-            const resultView = document.getElementById('mepi-result-view');
-            resultView.classList.remove('hidden');
-            
-            // 描画後、少し待ってからスクロールすることで安全に位置を取得
-            setTimeout(() => {
-                resultView.scrollIntoView({ behavior: 'smooth', block: 'start' });
-            }, 100);
-        }
-
-        // プロファイル内容生成
-        function generateProfileContent(ranks) {
-            // 素材定義（誤字脱字なきよう網羅）
-            const pieces = {
-                Do: {
-                    'H': {
-                        light: "高い創造性と圧倒的なビジョン構想力を持ち、新しい挑戦やイノベーションを恐れず突き進む突破力がある。",
-                        shadow: "極端な飽き性であり、思いつきのアイデアで周囲を巻き込むが、実行フェーズで放置し現場にカオスを生みやすい。",
-                        env_light: "裁量が広く、新しい提案やクリエイティブな挑戦が全面的に称賛されるイノベーティブな環境。",
-                        env_shadow: "ガチガチのマイクロマネジメントや前例踏襲のみを強要され、自由な発想や自律性が圧殺される状況。",
-                        work: "新規事業の立ち上げ、プロダクト開発、ビジョン構築のフェーズで爆発的な推進エンジンとして機能する。",
-                        home: "週末の予定やライフスタイルに常に新しい刺激、イベント、旅行を導入し、マンネリを打破しようとする。",
-                        friend: "面白いトレンドスポットや未知のアクティビティを見つけては、友人を急に誘い出す中心人物となる。",
-                        factors: "幼少期に突飛な発想や独自の質問を全面的に肯定・称賛された家庭環境、または過度な退屈への反発。ADHD的特性（過集中と衝動性）との相関。"
-                    },
-                    'M': {
-                        light: "現実的かつ手堅い挑戦を好み、リスクとリターンのバランスを冷静に見極めた上で着実に前進する。",
-                        shadow: "自ら大胆なリスクを取ることを避け、無難な選択や前例の安全なマイナーチェンジに終始しやすい。",
-                        env_light: "明確なガイドラインがありつつも、プロセス内で段階的な改善や裁量が認められる安定した環境。",
-                        env_shadow: "完全な無秩序（カオス）や、逆に1ミリの仕様変更も許されない極端に硬直化した状況。",
-                        work: "既存プロジェクトの着実なモダナイズや、現実的なマイルストーンの推進役として確実な成果を出す。",
-                        home: "定番の過ごし方の中に、無理のない範囲で新しい変化やささやかなトレンドを取り入れる。",
-                        friend: "定番の集まりや伝統を好みつつも、新しい飲食店の開拓などには柔軟に応じるバランスを見せる。",
-                        factors: "「中庸であること」「分をわきまえること」を美徳として教えられた、平穏で標準的な家庭・教育環境。"
-                    },
-                    'L': {
-                        light: "卓越した定着性と持続力を持ち、過去の遺産や既存の枠組み・アセットを脇目も振らずに維持・死守する。",
-                        shadow: "変化に対する激しい心理的抵抗や嫌悪を示し、時代遅れの古いやり方に盲目的に固執して思考停止に陥る。",
-                        env_light: "長期的な継続性が最も求められ、ルール、マニュアル、アセットが固定されている伝統的な環境。",
-                        env_shadow: "頻繁な組織変更、方針の朝令暮改、およびマニュアルが一切存在しない流動的なカオス環境。",
-                        work: "既存事業の保守・運用、レガシーシステムの維持、伝統的なインフラ業務の絶対的安定を支える。",
-                        home: "休日は自宅や完全に決まった場所で決まったスケジュールを消化するルーティンを何より愛する。",
-                        friend: "古くからの固定された友人と、何十年も変わらない関係性と話題を維持することを好む。",
-                        factors: "過去の新しい提案や挑戦で激しい拒絶、叱責、あるいは大失敗を経験したトラウマ。うつ病的な精神エネルギーの防衛収縮。"
-                    }
-                },
-                Se: {
-                    'H': {
-                        light: "鉄壁のリスク管理能力を誇り、微細なエラーや将来の危機を事前に検知して組織やシステムを守る。",
-                        shadow: "過剰警戒から全方位に対して疑心暗鬼となり、他者の挑戦に対して執拗なブレーキをかけ閉塞感を生む。",
-                        env_light: "安全性が最優先され、不祥事の防止や精密なセキュリティ監査が求められる防衛的・管理的な環境。",
-                        env_shadow: "裏付けデータのない博打的な挑戦を強いられ、失敗に対するペナルティが不透明なブラック環境。",
-                        work: "法務、リスクマネジメント、セキュリティ監査、品質管理などの最後の防衛線で最強の番人となる。",
-                        home: "家計の徹底管理、将来の強固な貯蓄計画、二重三重の防災対策を過剰なほど徹底して安心を得る。",
-                        friend: "旅行やイベントの際、トラブルを事前に想定した完璧な予備プラン（プランB）を用意する慎重派になる。",
-                        factors: "減点方式の教育環境、親の情緒不安定やヒステリックな叱責による安全愛着の剥奪。不安障害や強迫症（OCD）的傾向の学習。"
-                    },
-                    'M': {
-                        light: "健全な慎重さを持ち、危機への感度を適度に保ちつつも、必要な場面では許容リスク内で勝負できる。",
-                        shadow: "自分が矢面に立つことを嫌い、トラブルの初期兆候があっても他人の出方を伺う保身や日和見に傾く。",
-                        env_light: "責任範囲が明確で、想定外の連帯責任を負わされない風通しの良いクリアな環境。",
-                        env_shadow: "一度のミスに対して再起不能なレベルでの厳罰やバッシングが下される不寛容な状況。",
-                        work: "費用対効果を冷静に見据えながら、標準的なリスクテイクをそつなくこなす実務家となる。",
-                        home: "大きな買い物や教育資金の準備など、必要とされる防衛策を平均的にしっかりと行う。",
-                        friend: "友人との付き合いにおいて、無理な賭け事や危険を伴うレジャーは自然と回避する良識を示す。",
-                        factors: "致命的な経済破綻や事故を経験せず、適度に守られ、適度に自己責任を課されて育った標準的な育成環境。"
-                    },
-                    'L': {
-                        light: "プレッシャーを全く感じない驚異の強心臓を持ち、不確実性の極みにおいて爆速の意思決定を下す。",
-                        shadow: "危機感が致命的に欠如しており、なんの裏付けもない無謀な突撃やコンプライアンス違反で大事故を量産する。",
-                        env_light: "スピードと果敢なリスクテイクが最優先され、最悪の場合の尻拭い体制（資本力）がある環境。",
-                        env_shadow: "細かなコンプライアンスチェックや、二重三重の手続き承認を強制される官僚主義的環境。",
-                        work: "不況期の新規開拓営業、デッドラインギリギリの交渉、カオス期の火消し役として圧倒的な強さを発揮する。",
-                        home: "家計や支出に対して極めて楽観的（または無関心）であり、その場の楽しさにお金を使い果たしやすい。",
-                        friend: "「おもしろそうだから今から行こう」と、深夜の長距離移動や弾丸ツアーをノリだけで始める。",
-                        factors: "周囲がすべて尻拭いをしてくれた過保護な環境、または過酷な修羅場を経験しすぎて脳の恐怖アラームがマヒした解離性トラウマ。"
-                    }
-                },
-                Ox: {
-                    'H': {
-                        light: "卓越した共感力（エンパシー）で他者の心理・痛みを察知し、チームの心理的安全性を最大化する。",
-                        shadow: "情緒的過干渉や同調圧力を周囲に強要し、善意の名目で他者の心理的境界線（バウンダリー）を侵食する。",
-                        env_light: "チームワーク、情緒的な対話、お互いのメンタルケアや関係性が重視される温かいフラットな環境。",
-                        env_shadow: "数字や成果だけで人間を評価し、メンバー間での殺伐とした社内競争を強いるドライな環境。",
-                        work: "部下の育成、メンター、チームの結束維持、および顧客との深いエンゲージメント構築で精神的支柱となる。",
-                        home: "家族の些細な表情の変化から悩みを察知し、感情的な寄り添いとサポートを徹底する。",
-                        friend: "友人の悩み相談を何時間でも親身になって聞き、誰よりも深いエモーショナルな絆を築き上げる。",
-                        factors: "感情の共有を絶対の正義とした密着型の家庭、または見捨てられ不安から顔色を伺い続けた愛着トラウマ。境界性傾向。"
-                    },
-                    'M': {
-                        light: "ビジネスライクで健全な調和を保ち、情に流されすぎず他者と適切な心理的ディスタンスを維持できる。",
-                        shadow: "対立や摩擦を極度に恐れるあまり、本音を完全に隠して表面的な事なかれ主義や水面下の不満蓄積に逃げる。",
-                        env_light: "個人のプライバシーや領域が守られつつ、業務上の必要最低限の協調性が求められるドライな環境。",
-                        env_shadow: "ドロドロした社内政治、敵味方を明確に分けるような派閥争い、あるいは過剰なプライベートの開示を求められる環境。",
-                        work: "大人のビジネス関係を構築し、過剰な馴れ合いを避けつつも円滑な協調性と対話スタンスを保つ。",
-                        home: "家族を深く愛しつつも、お互いの個室、趣味の時間、個人の秘密を適度に尊重し合う距離感を好む。",
-                        friend: "広く浅く、または気心の知れた少数の友人と、大人のディスタンスと礼儀を持って心地よく付き合う。",
-                        factors: "個人の自立とプライバシーが尊重され、風通しの良い適度な集団生活を経験した一般的な教育環境。"
-                    },
-                    'L': {
-                        light: "完全な客観性と合理性を持ち、私情や感情論を一切挟まずに冷徹かつ最適な意思決定を遂行できる。",
-                        shadow: "他者への配慮や関心を完全に遮断し、人間を目標達成の道具（パーツ）のように扱う冷酷なスタンドプレーに走る。",
-                        env_light: "明確なデータ、数字、ロジックのみが絶対的な評価基準となる成果主義・実力主義環境。",
-                        env_shadow: "ウェットな人間関係の調整、感情的な根回し、あるいはロジックの通らない情実人事が横行するドメスティック環境。",
-                        work: "不採算事業の撤退、非情なコストカット、厳格な人事評価など、情に流されやすい局面で最大の真価を発揮する。",
-                        home: "家族の感情的な愚痴や相談を嫌い、「感情論は無駄」として冷淡に解決のロジックのみを提示して衝突を招くことがある。",
-                        friend: "友人関係は極めてドライ。無駄な雑談や傷の舐め合いを避け、共通の趣味や情報交換のみで繋がる。",
-                        factors: "感情の表出を無視・ネグレクトされた環境、「結果を出さねば価値がない」という条件付きの愛しか得られなかった教育。ASD的傾向。"
-                    }
-                },
-                No: {
-                    'H': {
-                        light: "強靭な意志と責任感で、与えられたルール、マニュアル、納期、約束を100%完璧にやり遂げる。",
-                        shadow: "融通の利かない完璧主義（教条主義）を他人に押し付け、些細なミスを執拗に糾弾して組織を窒息させる。",
-                        env_light: "評価基準や業務フローが完全に明文化され、高い誠実性とプロセス厳守が求められるコンプライアンス環境。",
-                        env_shadow: "朝令暮改の方針転換、マニュアルや仕様書が一切ない行き当たりばったりのカオスなスタートアップ状況。",
-                        work: "プロジェクトマネジメント（PMO）、インフラ構築、納期厳守が絶対のミッションクリティカルな実務で無類の強さを誇る。",
-                        home: "家事の分担、約束の時間、家庭内の整理整頓ルールを厳格に管理し、配偶者や子供にも同様の規律を求めがちになる。",
-                        friend: "約束の時間や集合場所を1分の狂いもなく守り、遅刻やドタキャンを繰り返すルーズな友人を内心で厳しく切り捨てる。",
-                        factors: "1分の遅刻も部屋の乱れも許されなかった厳格なしつけ、ルール違反でコミュニティから排除された恐怖。強迫性（OCPD）の過剰適応。"
-                    },
-                    'M': {
-                        light: "柔軟なタスク管理能力を持ち、枠組みやマニュアルを大切にしつつも状況に応じて臨機応変に運用できる応用力がある。",
-                        shadow: "明文化されていない独自の「こだわり」や「暗黙の了解」を強要し、それを察せない相手に不機嫌な態度を取る傾向。",
-                        env_light: "基本ルールがありつつも、現場の裁量や個人の言い分が適度に適応されるバランスの良い環境。",
-                        env_shadow: "一挙手一投足までマニュアルで監視・拘束されるような極端なマイクロマネジメント状況。",
-                        work: "社内規程を基本的には守りつつも、要領よく状況に合わせた「落としどころ」を見つける実務能力を発揮する。",
-                        home: "家庭内の約束事は基本的には守りつつ、お互いの体調や気分に合わせた融通の利く穏やかな共同生活を維持する。",
-                        friend: "予定の変更や多少の遅刻に対して「まあそういうこともあるか」と穏やかに受け入れる大らかさを持つ。",
-                        factors: "提出物の期限などは求められつつも、プロセスの進め方においては本人の裁量と言い分が適度に認められていた教育環境。"
-                    },
-                    'L': {
-                        light: "既存の枠組みや常識に囚われない自由な発想を持ち、マニュアルのないカオスな局面で圧倒的な臨機応変さを発揮する。",
-                        shadow: "致命的なルーズさや規範の軽視により、締め切りや約束を日常的に破って周囲の信用貯金を破産させる。",
-                        env_light: "ルールが未整備で、毎日がゼロベースの破壊と創造を求められるカオスな創業期・スタートアップ環境。",
-                        env_shadow: "細かな出退勤管理、定型報告書の提出義務、厳格な階層承認フローを強制される大企業病・管理環境。",
-                        work: "既存の古いルールや慣習を破壊する変革フェーズや、前例のないカオスなトラブル処理で圧倒的な強さを発揮する。",
-                        home: "家庭のルールやルーティンに縛られることを嫌い、家事なども自分の気分やタイミングで突発的に行う。",
-                        friend: "遅刻やドタキャンが常態化しがちだが、その場の圧倒的なノリの良さとユニークさでなぜか許されるトリックスターとなる。",
-                        factors: "親自体が社会規範にルーズで計画性のない家庭、または過度な管理教育への激しい嫌悪・反発心。ADHD的な実行機能の弱さ。"
-                    }
-                }
-            };
-
-            const d = ranks.Do; const s = ranks.Se; const o = ranks.Ox; const n = ranks.No;
-
-            // 特徴・特性の統合描画
-            document.getElementById('out-light').innerHTML = `
-                ${pieces.Do[d].light}<br><br>${pieces.Se[s].light}<br><br>${pieces.Ox[o].light}<br><br>${pieces.No[n].light}
-            `;
-            document.getElementById('out-shadow').innerHTML = `
-                ${pieces.Do[d].shadow}<br><br>${pieces.Se[s].shadow}<br><br>${pieces.Ox[o].shadow}<br><br>${pieces.No[n].shadow}
-            `;
-
-            // 特異的ダイナミズム
-            let dynText = "";
-            if (d === 'H' && s === 'H') dynText += "<strong>【Do:H × Se:H (内的反発葛藤)】</strong> 前進・変革への強烈なドーパミン欲求と、失敗を恐れて万全を期したいセロトニン防御反応が脳内で正面から衝突しています。絶えず革新的なビジョンが渦巻く一方で、リスク要素が1%でもあると行動を完全にロックしてしまうため、自己消耗が非常に激しいのが特徴です。";
-            if (d === 'H' && n === 'H') dynText += "<strong>【Do:H × No:H (社会実装力)】</strong> 独創的なアイデア（Do）と、精密なタスク・スケジュール遂行力（No）が組み合わさった『具現化の鬼』の化学反応です。思いつきを画餅に帰すことなく、強靭な実行プロセスで完璧に現実へ着地させます。";
-            if (s === 'H' && o === 'H') dynText += "<strong>【Se:H × Ox:H (高対人過敏性)】</strong> 他者の機嫌の悪さやグループの微細な空気（Ox）を「自分への生存脅威（Se）」として神経質に捉えてしまうため、いわゆるHSP的（極度過敏）な防衛を伴う協調行動が誘引されやすくなります。";
-            if (o === 'H' && n === 'H') dynText += "<strong>【Ox:H × No:H (パターナリズムの罠)】</strong> 他者へ強く共感し、助けたいという情愛（Ox）が規律遵守の厳しさ（No）と融合すると、「相手のためを思ってルールを押し付ける」という、逃げ場のないお節介や正論ハラスメントを誘発しがちです。";
-            if (d === 'H' && n === 'L') dynText += "<strong>【Do:H × No:L (才能の減衰減殺)】</strong> 天才的な着想や突破力（Do）があるにもかかわらず、ルールを守れないルーズさ、納期の未達（No）によって、社会実装する前に信用貯金をすり減らし、周囲から才能が埋もれやすくなります。";
-            if (o === 'H' && s === 'L') dynText += "<strong>【Ox:H × Se:L (過防衛なき献身)】</strong> 他者の感情にどこまでも寄り添う優しさ（Ox）を誇りますが、危機回避能力（Se）が希薄なため、悪意や不健全な依存心を持つ他人に搾取され、最悪の場合は共倒れを迎える危険性を秘めています。";
-            if (dynText === "") dynText = "突出した干渉エラーのない<strong>【安定的均整】</strong>のダイナミズムです。過激なブレーキ・アクセルの相反が体内でおきず、マイルドでエネルギー摩耗の少ない調和を常に維持しています。";
-            document.getElementById('out-dynamism').innerHTML = dynText;
-
-            // ② 環境状況分析
-            document.getElementById('out-env-light').innerHTML = `
-                以下の要素が調和した環境において、ライトサイドが安全に表出します：<br><br>
-                ・${pieces.Do[d].env_light}<br>
-                ・${pieces.Se[s].env_light}<br>
-                ・${pieces.Ox[o].env_light}<br>
-                ・${pieces.No[n].env_light}
-            `;
-            document.getElementById('out-env-shadow').innerHTML = `
-                以下の要素がトリガーとなり、あなたのシャドウサイドが暴走を始めます：<br><br>
-                ・${pieces.Do[d].env_shadow}<br>
-                ・${pieces.Se[s].env_shadow}<br>
-                ・${pieces.Ox[o].env_shadow}<br>
-                ・${pieces.No[n].env_shadow}
-            `;
-
-            // ③ 当該タイプへの心がけと心の処方箋
-            let tip = ""; let prescription = "";
-            if (s === 'H' || n === 'H') {
-                tip = "<strong>「すべてを完璧にコントロールしようとしないこと」</strong>。不確実で変更せざるを得ないカオスな出来事を自分の力不足のせいにせず、全体の2割は『あらかじめ破綻していてもよい余白』としてデザインする心がけを身につけましょう。";
-                prescription = "<strong>「80点での早期見切り発車訓練」</strong>。あなたが『100%安全かつ完璧』を監査している間に、時代はすでに別のステップへ進んでしまいます。不完全なアイデアや未完成のプロダクトを、あえて人前にさらしてフィードバックを得る『小さな露出失敗』のリハビリを意識的に行ってください。";
-            } else if (d === 'H' || o === 'H') {
-                tip = "<strong>「他人の課題と自分の課題の間にクリアな境界線を引くこと」</strong>。相手のトラブルや未熟な成果を、自分がカバーして解決すべき問題と捉え、手を広げすぎてあなた自身が窒息してしまわないための自己規制が必要です。";
-                prescription = "<strong>「不機嫌な他者を『放置する』という贅沢」</strong>。誰かがイライラしていたり、計画が停滞していても、あなたが身を切ってバランサーになる必要はありません。他人が不機嫌になる権利を尊重し、あえて『何もしないで見守る』という精神的な境界防衛を今日から取り入れてください。";
-            } else {
-                tip = "現在の安定した調和力を自覚し、<strong>「尖りすぎたメンバー同士を優しく結びつけるハブとしての機能」</strong>にコミットしてください。あなたの気張らないニュートラルさが、チーム全体の窒息を未然に防ぐ最高のオアシスとなります。";
-                prescription = "過激な刺激や強い不安がないと「今のままでよいのだろうか」と現状に空虚さを覚えることがありますが、安定をキープすること自体が、周囲への偉大な心理的安全インフラです。無理に『尖ろう』とせず、ありのままのバランスを楽しんでください。";
-            }
-            document.getElementById('out-tip').innerHTML = tip;
-            document.getElementById('out-prescription').innerHTML = prescription;
-
-            // ④ 集団行動
-            document.getElementById('out-act-work').innerHTML = `${pieces.Do[d].work}<br><br>${pieces.No[n].work}`;
-            document.getElementById('out-act-home').innerHTML = `${pieces.Se[s].home}<br><br>${pieces.Ox[o].home}`;
-            document.getElementById('out-act-friend').innerHTML = `${pieces.Ox[o].friend}<br><br>${pieces.Do[d].friend}`;
-
-            // ⑤ 相性診断の動的計算（ここで参照エラーが起きていた箇所を修正）
-            const inv = { 'H': 'L', 'M': 'M', 'L': 'H' };
-            const best_amp = (o !== 'L') ? `${d}-${s}-H-H` : `M-M-M-M`;
-            const best_comp = `${inv[d]}-${inv[s]}-${inv[o]}-${inv[n]}`;
-            const worst_att = `${d}-${s}-L-L`;
-            const worst_rep = `${inv[d]}-${s}-${inv[o]}-${n}`;
-
-            document.getElementById('out-rel-amplify').innerHTML = `
-                <strong>【${best_amp}】</strong> (創造と実行機能がブーストし、お互いのエンジン（Do）とデリバリー（No）を限界まで熱狂的に高め合える最強の共闘同盟です。)
-            `;
-            document.getElementById('out-rel-complement').innerHTML = `
-                <strong>【${best_comp}】</strong> (あなたのすべての元素レベルが完全に反転している鏡像のようなタイプ。あなたが恐怖し見落としている領域を、相手が息をするように完璧にカバー・防衛してくれる最高のアシスタント関係。)
-            `;
-            document.getElementById('out-rel-attenuate').innerHTML = `
-                <strong>【${worst_att}】</strong> (互いの心理的・情緒的安全ライン（Ox）やマニュアル規律（No）が最も低い部分で結びつき、馴れ合いのままに生産性を減衰・ダウントレンドに引きずり込む関係性。)
-            `;
-            document.getElementById('out-rel-repel').innerHTML = `
-                <strong>【${worst_rep}】</strong> (認知の方向性が完全に反対でありながら一部の要素（Se）のみが同じなため、手法や進め方の細かいプロセスで激しい防衛的クラッシュや不信感を抱きやすい反発関係。)
-            `;
-
-            // ⑥ 後天的誘引要因
-            const factorsContainer = document.getElementById('out-factors-container');
-            factorsContainer.innerHTML = `
-                <div class="space-y-2">
-                    <p><strong>● 探求（Do:${d}）形成のルーツ:</strong> ${pieces.Do[d].factors}</p>
-                    <p><strong>● 保存（Se:${s}）形成のルーツ:</strong> ${pieces.Se[s].factors}</p>
-                    <p><strong>● 共鳴（Ox:${o}）形成のルーツ:</strong> ${pieces.Ox[o].factors}</p>
-                    <p><strong>● 規律（No:${n}）形成のルーツ:</strong> ${pieces.No[n].factors}</p>
-                </div>
-            `;
-        }
-
-        // リセット
-        function resetDiagnostic() {
-            document.getElementById('diagnostic-form').reset();
-            document.getElementById('mepi-result-view').classList.add('hidden');
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        }
-
-        // 初期ロード時実行
-        window.onload = function() {
-            renderQuestions();
-        }
-    </script>
-</body>
-</html>
+    </body>
+    </html>
